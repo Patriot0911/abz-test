@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  phone       String   @unique
+  photo       String?
+  timestamp   DateTime @default(now()) @db.Timestamptz()
+  positionId  Int
+
+  position  Position @relation(fields: [positionId], references: [id], onDelete: Restrict)
+  @@map("users")
+}
+
+model Position {
+  id    Int    @id @default(autoincrement())
+  name  String
+
+  users User[]
+  @@map("positions")
+}
+
+model Token {
+  id      Int       @id @default(autoincrement())
+  expires DateTime  @db.Timestamp()
+
+  @@map("tokens")
+}
