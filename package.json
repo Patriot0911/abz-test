@@ -4,9 +4,13 @@
   "type": "module",
   "module": "ESM6",
   "description": "",
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "build": "tsc",
     "start:dev": "npx nodemon -x tsx src/index.ts"
   },
   "keywords": [],

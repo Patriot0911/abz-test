@@ -1,5 +1,5 @@
 import { userRouter, tokenRouter, positionsRouter } from '@/routes';
-import { __dirname } from '@/utils/constants';
+import { __dirname } from '@/constants';
 import express from 'express';
 import env from 'dotenv';
 import cors from 'cors';
@@ -25,5 +25,6 @@ app.listen(
         console.log(
             `Listening to ${ip} // http://${ip}/`
         );
+        console.log(__dirname)
     },
 );

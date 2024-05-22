@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import multer from 'multer';
 import tinify from 'tinify';
 import path from 'path';
-import { __dirname } from './constants';
+import { __dirname } from '../constants';
 
 tinify.key = process.env.TINY_KEY as string;
 
@@ -20,7 +20,7 @@ const dStorage = multer.diskStorage(
         destination: (req, file, cb) => {
             if(!file)
                 return;
-            cb(null, path.join(__dirname, '../assets'));
+            cb(null, path.join(__dirname, '/assets'));
         },
         filename: (req, file, cb) => {
             cb(null, Date.now() + `${file.filename}.jpg`);
