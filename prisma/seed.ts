@@ -235,13 +235,12 @@ const positions = [
 ];
 
 const main = async() => {
-    for(const position of positions) {
-        await prisma.position.create({
-            data: {
-                name: position.name,
-            },
-        });
-    };
+    await prisma.position.createMany({
+      data: [
+        ...positions,
+      ],
+      skipDuplicates: true,
+    });
     for(const user of users) {
         await prisma.user.create({
             data: {
@@ -250,7 +249,7 @@ const main = async() => {
                 phone: user.phone,
                 positionId: user.position_id,
                 photo: 'avatar.jpg',
-            }
+            },
         });
     };
 };
