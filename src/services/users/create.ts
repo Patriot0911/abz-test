@@ -1,5 +1,6 @@
 import { tokenValidator, userCreationValidator } from "@/utils/validators";
 import { TUserBody } from "@/utils/interfaces";
+import { toTinyFile } from "@/utils/multer";
 import dbServices from "../db";
 
 const create = async (userData: TUserBody, file: Express.Multer.File, token: string) => {
@@ -17,9 +18,10 @@ const create = async (userData: TUserBody, file: Express.Multer.File, token: str
             ...validation,
         };
     const validUser = validation.user!;
+    const photo = file ? file.path.slice(file.destination.length+1) : undefined;
     const { data, message, status, } = await dbServices.users.create({
         ...validUser,
-        photo: file.path,
+        photo,
     });
     if(message)
         return {
@@ -28,6 +30,8 @@ const create = async (userData: TUserBody, file: Express.Multer.File, token: str
             message,
         };
     await dbServices.token.delete(isValidtoken.id!);
+    if(file)
+        toTinyFile(file);
     return {
         status: 201,
         success: true,

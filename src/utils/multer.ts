@@ -1,14 +1,25 @@
-import { fileURLToPath } from 'url';
-import { dirname } from 'node:path';
 import fs from 'node:fs/promises';
 import multer from 'multer';
+import tinify from 'tinify';
 import path from 'path';
+import { __dirname } from './constants';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+tinify.key = process.env.TINY_KEY as string;
+
+export const toTinyFile = (file: Express.Multer.File) => {
+    const source = tinify.fromFile(file.path);
+    const resized = source.resize({
+        method: "fit",
+        width: 70,
+        height: 70,
+    });
+    resized.toFile(file.path);
+};
 const dStorage = multer.diskStorage(
     {
         destination: (req, file, cb) => {
+            if(!file)
+                return;
             cb(null, path.join(__dirname, '../assets'));
         },
         filename: (req, file, cb) => {

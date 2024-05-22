@@ -1,8 +1,8 @@
 import { userRouter, tokenRouter, positionsRouter } from '@/routes';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { __dirname } from '@/utils/constants';
 import express from 'express';
 import env from 'dotenv';
+import cors from 'cors';
 
 env.config();
 const PORT = process.env.PORT ?? 8080;
@@ -10,9 +10,8 @@ const PORT = process.env.PORT ?? 8080;
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 app.use('/assets', express.static(__dirname + '/assets'));
 
 app.use('/api/users', userRouter);

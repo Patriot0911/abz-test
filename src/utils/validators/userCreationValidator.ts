@@ -29,7 +29,6 @@ const userCreationValidator = (user: TUserBody, file: Express.Multer.File) => {
             fails.photo.push('The photo may not be greater than 5 Mbytes.');
         if(!fileTypes.includes(file.mimetype))
             fails.photo.push('Unsupported file format.');
-        console.log(file.mimetype);
     };
     if(!user.name) {
         fails.name.push('No name specified.');

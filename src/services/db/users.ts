@@ -79,7 +79,6 @@ class userDbManager {
             position_id,
             photo,
         } = userDate;
-        console.log(photo);
         try {
             const position = await this.prisma.position.findFirst({
                 where: {
